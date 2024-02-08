@@ -36,3 +36,35 @@
     transform: rotate(360deg);
   }
 }
+
+.mavs-logo{
+  height: auto; 
+  width: 1.5rem; 
+  margin-right: 1rem; 
+  margin-left: 1rem; 
+}
+
+.nba-logo{
+  height: auto; 
+  width: 4rem; 
+  margin-right: 1rem; 
+  margin-left: 1rem; 
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: #ffffff; 
+  padding: 1rem;
+  color: black;
+  border-bottom: 2px solid #000000;
+  height: 2rem;
+}
+
+
+.nav-item {
+  text-transform: uppercase; 
+  font-family: 'ProtestStrike';
+  font-size: 20px; 
+}
