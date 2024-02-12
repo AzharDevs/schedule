@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Card, CardContent, Typography, Button } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Modal,
+  Box,
+  TextField,
+  Select,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import {
   BarChart,
@@ -11,6 +22,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+
+import CloseIcon from "@mui/icons-material/Close";
 
 const StyledCard = styled(Card)({
   backgroundColor: "#001A2C",
@@ -43,8 +56,35 @@ const ToggleButton = styled(Button)({
   transition: "all 0.3s ease",
 });
 
-const GameResearch = ({ stats }) => {
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",
+  maxWidth: "500px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  overflowY: "auto",
+};
+
+const playerImageStyle = {
+  width: "100px",
+  height: "auto",
+  "@media (min-width:600px)": {
+    width: "150px",
+  },
+};
+
+const GameResearch = ({ stats, gameData }) => {
   const [showOffensive, setShowOffensive] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState("");
+  const [reportText, setReportText] = useState("");
+  const [scoutName, setScoutName] = useState("");
+  const [selectedPlayerDetails, setSelectedPlayerDetails] = useState(null);
 
   const offensiveData = stats
     ? [
@@ -85,8 +125,8 @@ const GameResearch = ({ stats }) => {
         },
         {
           name: "Free Throws Allowed",
-          [stats.homeStats.team]: stats.homeStats["FTA ALLOWED"],
-          [stats.awayStats.team]: stats.awayStats["FTA ALLWOED"],
+          [stats.homeStats.team]: stats.homeStats["FTA"],
+          [stats.awayStats.team]: stats.awayStats["FTA"],
         },
         {
           name: "Turnovers Forced",
@@ -98,6 +138,48 @@ const GameResearch = ({ stats }) => {
 
   const toggleData = () => {
     setShowOffensive(!showOffensive);
+  };
+
+  const handlePlayerSelection = (event) => {
+    const playerId = event.target.value;
+    setSelectedPlayer(playerId);
+    const playerDetails = gameData.playerStats.find(
+      (player) => player.nbaId === playerId,
+    );
+    if (playerDetails) {
+      const heightFeet = Math.floor(playerDetails.height / 12);
+      const heightInches = playerDetails.height % 12;
+
+      setSelectedPlayerDetails({
+        ...playerDetails,
+        height: `${heightFeet}'${heightInches}"`,
+      });
+    }
+  };
+
+  const handleReportChange = (event) => {
+    setReportText(event.target.value);
+  };
+
+  const handleScoutNameChange = (event) => {
+    setScoutName(event.target.value);
+  };
+
+  const [scoutingReports, setScoutingReports] = useState([]);
+
+  const handleReportSubmit = () => {
+    const newReport = {
+      nbaGameId: stats.gameId,
+      scout: scoutName,
+      nbaId: selectedPlayer,
+      name: stats.opponentRoster.find(
+        (player) => player.nbaId === selectedPlayer,
+      )?.name,
+      report: reportText,
+    };
+
+    setScoutingReports([...scoutingReports, newReport]);
+    setIsModalOpen(false);
   };
 
   const data = showOffensive ? offensiveData : defensiveData;
@@ -125,8 +207,126 @@ const GameResearch = ({ stats }) => {
         >
           {showOffensive ? "Defensive Stats" : "Offensive Stats"}
         </ToggleButton>
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          style={{
+            fontSize: "10px",
+            color: "white",
+            backgroundColor: "#0061BE",
+            fontWeight: "bold",
+          }}
+        >
+          Add Scouting Report
+        </Button>
+
+        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Box sx={modalStyle}>
+            <IconButton
+              aria-label="close"
+              onClick={() => setIsModalOpen(false)}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              New Scouting Report
+            </Typography>
+            <Select
+              displayEmpty
+              fullWidth
+              onChange={handlePlayerSelection}
+              defaultValue=""
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200,
+                    overflow: "auto",
+                  },
+                },
+              }}
+              style={{ marginTop: "20px" }}
+            >
+              <MenuItem disabled value="">
+                <em>Select a Player</em>
+              </MenuItem>
+              {stats?.opponentRoster.map((player) => (
+                <MenuItem key={player.nbaId} value={player.nbaId}>
+                  {player.name}
+                </MenuItem>
+              ))}
+            </Select>
+            {selectedPlayerDetails && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                mt={2}
+              >
+                <Box>
+                  <img
+                    src={selectedPlayerDetails.photoUrl}
+                    alt={selectedPlayerDetails.name}
+                    style={playerImageStyle}
+                  />
+                </Box>
+                <Box>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    Height: {selectedPlayerDetails.height}
+                  </Typography>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    Weight: {selectedPlayerDetails.weight} lbs
+                  </Typography>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    Jersey: #{selectedPlayerDetails.jerseyNum}
+                  </Typography>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    FT%: {selectedPlayerDetails.ftp}
+                  </Typography>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    TP%: {selectedPlayerDetails.tpp}
+                    </Typography>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    PTS: {selectedPlayerDetails.pts}
+                  </Typography>
+                  <Typography style={{ fontWeight: 'bold' }}>
+                    +/-: {selectedPlayerDetails.plusMinus}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            <TextField
+              fullWidth
+              label="Scout's Name"
+              margin="dense"
+              variant="outlined"
+              value={scoutName}
+              onChange={handleScoutNameChange}
+              style={{ marginTop: "20px" }}
+            />
+            <TextField
+              fullWidth
+              label="Scouting Report"
+              multiline
+              rows={4}
+              margin="dense"
+              variant="outlined"
+              value={reportText}
+              onChange={handleReportChange}
+              style={{ marginTop: "20px" }}
+            />
+
+            <Button onClick={handleReportSubmit} style={{ marginTop: "20px" }}>
+              Submit
+            </Button>
+          </Box>
+        </Modal>
         {stats ? (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart
               layout="vertical"
               data={data}
@@ -134,7 +334,12 @@ const GameResearch = ({ stats }) => {
             >
               <CartesianGrid stroke="none" />
               <XAxis type="number" />
-              <YAxis dataKey="name" type="category" width={120} tick={{ fill: 'black', fontWeight: 'bold', }}/>
+              <YAxis
+                dataKey="name"
+                type="category"
+                width={120}
+                tick={{ fill: "black", fontWeight: "bold" }}
+              />
               <Tooltip />
               <Legend />
               <Bar

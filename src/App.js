@@ -4,15 +4,40 @@ import "./App.css";
 import GameCard from "./components/GameCard";
 import NavHeader from "./components/NavHeader";
 import Grid from "@mui/material/Grid";
-import RightSidebar from "./components/RightSidebar";
-import LeftSidebar from "./components/LeftSidebar";
 import GameResearch from "./components/GameResearch";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import gameData from "./data/gameData.json";
 
 function App() {
   const [stats, setStats] = useState(null);
 
-  const onShowStats = (homeStats, awayStats) => {
-    setStats({ homeStats, awayStats });
+  const onShowStats = (homeStats, awayStats, gameId, opponentRoster) => {
+    setStats({ homeStats, awayStats, gameId, opponentRoster });
+  };
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    dots: false,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 825,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
+  };
+
+  const gridItemStyle = {
+    marginTop: "1rem",
   };
 
   return (
@@ -22,49 +47,35 @@ function App() {
         container
         style={{ height: "calc(100vh - 64px)", overflow: "hidden" }}
       >
-        <Grid
-          item
-          xs={1}
-          style={{
-            padding: "0",
-            color: "white",
-            borderRight: "1px solid black",
-          }}
-        >
-          <LeftSidebar />
-        </Grid>
-        <Grid item xs={10} style={{ display: "flex", flexDirection: "column" }}>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="flex-start"
-            style={{ marginBottom: "1rem" }}
-          >
-            <Grid item xs={12} sm={4} style={{ padding: "1rem" }}>
-              <GameCard game={0} onShowStats={onShowStats} />
-            </Grid>
-            <Grid item xs={12} sm={4} style={{ padding: "1rem" }}>
-              <GameCard game={1} onShowStats={onShowStats} />
-            </Grid>
-            <Grid item xs={12} sm={4} style={{ padding: "1rem" }}>
-              <GameCard game={2} onShowStats={onShowStats} />
-            </Grid>
-          </Grid>
-          <Grid item xs={12} style={{ padding: "1rem" }}>
-            <GameResearch stats={stats} />
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={1}
-          style={{
-            padding: "0",
-            color: "white",
-            borderLeft: "1px solid black",
-          }}
-        >
-          <RightSidebar />
+        <Grid item xs={12} style={gridItemStyle}>
+          <div className="custom-slider">
+            <Slider {...settings}>
+              <div slideContainerStyle>
+                <GameCard
+                  game={0}
+                  onShowStats={onShowStats}
+                  gameData={gameData}
+                />
+              </div>
+              <div>
+                <GameCard
+                  game={1}
+                  onShowStats={onShowStats}
+                  gameData={gameData}
+                />
+              </div>
+              <div>
+                <GameCard
+                  game={2}
+                  onShowStats={onShowStats}
+                  gameData={gameData}
+                />
+              </div>
+            </Slider>
+          </div>
+          <div style={{ padding: "0rem 1rem 1rem 1rem" }}>
+            <GameResearch stats={stats} gameData={gameData} />
+          </div>
         </Grid>
       </Grid>
     </div>

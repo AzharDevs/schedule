@@ -1,0 +1,47 @@
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0.5rem 1rem;
+    color: black;
+    border-bottom: 1px solid black;
+  }
+  
+  .nav-item {
+    text-transform: uppercase;
+    font-family: 'Graphik', sans-serif;
+    font-size: 15px;
+    margin: 0 10px;
+    white-space: nowrap;
+  }
+  
+  .mavs-logo {
+    height: auto;
+    width: 4rem; 
+    margin-right: 1rem;
+  }
+  
+  .nba-logo {
+    height: auto;
+    width: 1.5rem; 
+    margin-right: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-item {
+      font-size: 12px;
+      margin: 0 5px;
+    }
+  
+    .mavs-logo {
+      width: 2.5rem; 
+      margin-right: 0.5rem;
+    }
+  
+    .nba-logo {
+      width: 1rem; 
+      margin-right: 0.5rem;
+    }
+  }
+  

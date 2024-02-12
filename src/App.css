@@ -37,3 +37,21 @@
   }
 }
 
+/*Overriding react slick css to get gaps between react components*/
+.custom-slider .slick-track {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  
+}
+
+.custom-slider .slick-slide {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem 
+}
+
+
+
+

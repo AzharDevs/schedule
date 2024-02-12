@@ -2,8 +2,6 @@ import React from "react";
 import { Card, CardContent, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
 
-import gameData from "../data/gameData.json";
-
 const getDayOfWeek = (dateStr) => {
   const date = new Date(dateStr);
   return date.toLocaleDateString("en-US", { weekday: "long" });
@@ -18,10 +16,6 @@ const StyledCard = styled(Card)({
 
 const CardContentStyled = styled(CardContent)({
   position: "relative",
-  paddingBottom: "16px !important",
-  "&:last-child": {
-    paddingBottom: "16px",
-  },
 });
 
 const TopBar = styled("div")({
@@ -33,7 +27,7 @@ const TopBar = styled("div")({
   height: "4rem",
 });
 
-const GameCard = ({ game, onShowStats }) => {
+const GameCard = ({ gameData, game, onShowStats }) => {
   const match = gameData.games[game];
   const date = new Date(match.date);
   const formattedDate = date.toLocaleDateString("en-US", {
@@ -59,9 +53,16 @@ const GameCard = ({ game, onShowStats }) => {
     const opposingStats = gameData.teamRanks.find(
       (teamStats) => teamStats.team === opposingTeam,
     );
-    console.log("Mavs Stats:", mavsStats);
 
-    onShowStats(mavsStats, opposingStats);
+    const gameId = match.nbaGameId;
+    const opponentRoster = gameData.playerStats
+      .filter((player) => player.team === opposingTeam)
+      .map((player) => ({
+        nbaId: player.nbaId,
+        name: player.name,
+      }));
+
+    onShowStats(mavsStats, opposingStats, gameId, opponentRoster);
   };
 
   return (
