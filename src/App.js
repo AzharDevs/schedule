@@ -45,7 +45,7 @@ function App() {
       <NavHeader />
       <Grid
         container
-        style={{ height: "calc(100vh - 64px)", overflow: "hidden" }}
+        style={{ height: "calc(100vh - 4rem)", overflow: "hidden" }}
       >
         <Grid item xs={12} style={gridItemStyle}>
           <div className="custom-slider">

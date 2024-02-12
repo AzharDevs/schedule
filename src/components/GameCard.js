@@ -83,7 +83,7 @@ const GameCard = ({ gameData, game, onShowStats }) => {
               variant="h5"
               component="div"
               style={{
-                fontSize: "30px",
+                fontSize: "1.875",
                 textAlign: "center",
                 fontWeight: 700,
                 color: "white",
@@ -96,7 +96,7 @@ const GameCard = ({ gameData, game, onShowStats }) => {
               variant="h5"
               component="div"
               style={{
-                fontSize: "15px",
+                fontSize: "0.938rem",
                 textAlign: "center",
                 color: "white",
                 textTransform: "uppercase",
@@ -112,7 +112,7 @@ const GameCard = ({ gameData, game, onShowStats }) => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              gap: "16px",
+              gap: "1rem",
               justifyContent: "center",
               width: "100%",
               height: "100%",
@@ -141,8 +141,8 @@ const GameCard = ({ gameData, game, onShowStats }) => {
               style={{
                 flex: 1,
                 textAlign: "center",
-                paddingLeft: "8px",
-                paddingRight: "8px",
+                paddingLeft: "0.5rem",
+                paddingRight: "0.5rem",
               }}
             >
               <Typography
@@ -163,7 +163,7 @@ const GameCard = ({ gameData, game, onShowStats }) => {
                 <Button
                   onClick={handleShowStats}
                   style={{
-                    fontSize: "10px",
+                    fontSize: "0.625rem",
                     color: "white",
                     backgroundColor: "#0061BE",
                     fontWeight: "bold",

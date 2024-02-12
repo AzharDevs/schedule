@@ -28,7 +28,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const StyledCard = styled(Card)({
   backgroundColor: "#001A2C",
   color: "#ffffff",
-  borderRadius: "8px",
+  borderRadius: "0.5rem",
 });
 
 const TopBar = styled("div")({
@@ -43,7 +43,7 @@ const TopBar = styled("div")({
 });
 
 const ToggleButton = styled(Button)({
-  margin: "10px auto",
+  margin: "0.625rem auto",
   display: "block",
   backgroundColor: "#fff",
   color: "#0061BE",
@@ -62,19 +62,19 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "80%",
-  maxWidth: "500px",
+  maxWidth: "31.25rem",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "0.125rem solid #000",
   boxShadow: 24,
   p: 4,
   overflowY: "auto",
 };
 
 const playerImageStyle = {
-  width: "100px",
+  width: "6.25rem",
   height: "auto",
-  "@media (min-width:600px)": {
-    width: "150px",
+  "@media (min-width:37.5rem)": {
+    width: "9.375rem",
   },
 };
 
@@ -191,7 +191,7 @@ const GameResearch = ({ stats, gameData }) => {
           variant="h5"
           component="div"
           style={{
-            fontSize: "30px",
+            fontSize: "1.875rem",
             textAlign: "center",
             fontWeight: 700,
             textTransform: "uppercase",
@@ -210,7 +210,7 @@ const GameResearch = ({ stats, gameData }) => {
         <Button
           onClick={() => setIsModalOpen(true)}
           style={{
-            fontSize: "10px",
+            fontSize: "0.625rem",
             color: "white",
             backgroundColor: "#0061BE",
             fontWeight: "bold",
@@ -249,7 +249,7 @@ const GameResearch = ({ stats, gameData }) => {
                   },
                 },
               }}
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "1.25rem" }}
             >
               <MenuItem disabled value="">
                 <em>Select a Player</em>
@@ -306,7 +306,7 @@ const GameResearch = ({ stats, gameData }) => {
               variant="outlined"
               value={scoutName}
               onChange={handleScoutNameChange}
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "1.25rem" }}
             />
             <TextField
               fullWidth
@@ -317,10 +317,10 @@ const GameResearch = ({ stats, gameData }) => {
               variant="outlined"
               value={reportText}
               onChange={handleReportChange}
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "1.25rem" }}
             />
 
-            <Button onClick={handleReportSubmit} style={{ marginTop: "20px" }}>
+            <Button onClick={handleReportSubmit} style={{ marginTop: "1.25rem" }}>
               Submit
             </Button>
           </Box>
